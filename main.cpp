@@ -34,3 +34,12 @@ void displayMenu() {
     cout << "+------------------------------------------+" << endl;
     cout << "Enter choice: ";
 }
+
+
+void displaySuccess(const char* message) {
+    cout << "\n+------------------------------------------+" << endl;
+    cout << "| SUCCESS                                  |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "| " << message << endl;
+    cout << "+------------------------------------------+" << endl;
+}
