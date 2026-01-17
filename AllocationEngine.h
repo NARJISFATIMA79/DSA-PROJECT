@@ -8,3 +8,4 @@ class AllocationEngine {
 private:
     Zone* zones;
     int zoneCount;
+};
