@@ -1,15 +1,8 @@
-#ifndef PARKINGAREA_H
-#define PARKINGAREA_H
+#include "ParkingArea.h"
 
-#include "ParkingSlot.h"
+ParkingArea::ParkingArea() : areaID(0), zoneID(0), slots(nullptr), slotCount(0), capacity(0) {}
 
-class ParkingArea {
-private:
-    int areaID;
-    int zoneID;
-    ParkingSlot* slots;
-    int slotCount;
-    int capacity;
-
-public:
-};
+ParkingArea::ParkingArea(int aID, int zID, int cap) 
+    : areaID(aID), zoneID(zID), slotCount(0), capacity(cap) {
+    slots = new ParkingSlot[capacity];
+}
