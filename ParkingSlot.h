@@ -8,5 +8,8 @@ private:
     bool isAvailable;
 
 public:
+
+    ParkingSlot();
+    ParkingSlot(int sID, int zID);
     
 };
