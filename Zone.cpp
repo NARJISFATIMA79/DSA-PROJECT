@@ -9,3 +9,39 @@ Zone::Zone(int zID, int cap) : zoneID(zID), areaCount(0), capacity(cap) {
         areas = nullptr;
     }
 }
+
+Zone::~Zone() {
+    delete[] areas;
+}
+
+Zone::Zone(const Zone& other) 
+    : zoneID(other.zoneID), areaCount(other.areaCount), capacity(other.capacity) {
+    if (other.areas != nullptr && capacity > 0) {
+        areas = new ParkingArea[capacity];
+        for (int i = 0; i < areaCount; i++) {
+            areas[i] = other.areas[i];
+        }
+    } else {
+        areas = nullptr;
+    }
+}
+
+Zone& Zone::operator=(const Zone& other) {
+    if (this != &other) {
+        delete[] areas;
+        
+        zoneID = other.zoneID;
+        areaCount = other.areaCount;
+        capacity = other.capacity;
+        
+        if (other.areas != nullptr && capacity > 0) {
+            areas = new ParkingArea[capacity];
+            for (int i = 0; i < areaCount; i++) {
+                areas[i] = other.areas[i];
+            }
+        } else {
+            areas = nullptr;
+        }
+    }
+    return *this;
+}
