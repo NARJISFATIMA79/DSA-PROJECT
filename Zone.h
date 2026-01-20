@@ -12,4 +12,12 @@ private:
     int capacity;
 
 public:
+Zone();
+    Zone(int zID, int cap);
+    ~Zone();
+    
+    Zone(const Zone& other);
+    Zone& operator=(const Zone& other);
+    
+    int getZoneID() const;
 };
