@@ -6,3 +6,17 @@
 #include "ParkingRequest.h"
 #include "AllocationEngine.h"
 #include "RollbackManager.h"
+
+class ParkingSystem {
+private:
+    Zone* zones;
+    int zoneCount;
+    int zoneCapacity;
+    int maxZoneID;  // Maximum allowed zone ID (based on city zones)
+    
+    ParkingRequest* requests;
+    int requestCount;
+    int requestCapacity;
+    
+    AllocationEngine* engine;
+    RollbackManager* rollbackMgr;
