@@ -9,3 +9,10 @@ ParkingSystem::ParkingSystem(int cityZones)
     engine = nullptr;
     rollbackMgr = new RollbackManager();
 }
+
+ParkingSystem::~ParkingSystem() {
+    delete[] zones;
+    delete[] requests;
+    delete engine;
+    delete rollbackMgr;
+}
