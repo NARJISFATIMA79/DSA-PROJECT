@@ -11,5 +11,11 @@ public:
 
     ParkingSlot();
     ParkingSlot(int sID, int zID);
+
+    int getSlotID() const;
+    int getZoneID() const;
+    bool getAvailability() const;
+    
+    void setAvailability(bool status);
     
 };
