@@ -9,3 +9,12 @@ struct RollbackOperation {
     int zoneID;
     RollbackOperation* next;
 };
+
+class RollbackManager {
+private:
+    RollbackOperation* top;
+    int size;
+
+public:
+    RollbackManager();
+    ~RollbackManager();
