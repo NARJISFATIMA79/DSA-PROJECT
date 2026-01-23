@@ -16,3 +16,26 @@ ParkingSystem::~ParkingSystem() {
     delete engine;
     delete rollbackMgr;
 }
+
+bool ParkingSystem::isValidZoneID(int zoneID) const {
+    return zoneID >= 1 && zoneID <= maxZoneID;
+}
+
+void ParkingSystem::resizeZoneArray(int newCapacity) {
+    Zone* newZones = new Zone[newCapacity];
+    for (int i = 0; i < zoneCount; i++) {
+        newZones[i] = zones[i];
+    }
+    delete[] zones;
+    zones = newZones;
+    zoneCapacity = newCapacity;
+}
+
+bool ParkingSystem::setupZone(int zoneID, int numAreas, int slotsPerArea, char* errorMsg) {
+    // Validate zone ID is within city range
+    if (!isValidZoneID(zoneID)) {
+        if (errorMsg) {
+            sprintf(errorMsg, "Invalid Zone ID! Must be between 1 and %d", maxZoneID);
+        }
+        return false;
+    }
