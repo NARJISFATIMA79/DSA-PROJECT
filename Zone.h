@@ -20,4 +20,8 @@ Zone();
     Zone& operator=(const Zone& other);
     
     int getZoneID() const;
+    void addArea(int areaID, int slotCapacity);
+    void addSlotToArea(int areaIndex, int slotID);
+    ParkingSlot* findAvailableSlot();
+    ParkingSlot* getSlotByID(int slotID);
 };
