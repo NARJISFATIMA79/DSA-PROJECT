@@ -15,3 +15,18 @@ void RollbackManager::pushOperation(int reqIndex, int slotID, int zoneID) {
     top = newOp;
     size++;
 }
+
+bool RollbackManager::popOperation(int& reqIndex, int& slotID, int& zoneID) {
+    if (top == nullptr) {
+        return false;
+    }
+    
+    RollbackOperation* temp = top;
+    reqIndex = temp->requestIndex;
+    slotID = temp->slotID;
+    zoneID = temp->zoneID;
+    top = top->next;
+    delete temp;
+    size--;
+    return true;
+}
