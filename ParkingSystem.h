@@ -20,3 +20,7 @@ private:
     
     AllocationEngine* engine;
     RollbackManager* rollbackMgr;
+
+    void updateAllocationEngine();
+    bool isValidZoneID(int zoneID) const;
+    void resizeZoneArray(int newCapacity);
