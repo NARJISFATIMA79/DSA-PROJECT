@@ -45,3 +45,24 @@ Zone& Zone::operator=(const Zone& other) {
     }
     return *this;
 }
+
+int Zone::getZoneID() const {
+    return zoneID;
+}
+
+void Zone::addArea(int areaID, int slotCapacity) {
+    if (areaCount < capacity) {
+        areas[areaCount] = ParkingArea(areaID, zoneID, slotCapacity);
+        areaCount++;
+    }
+}
+
+ParkingSlot* Zone::findAvailableSlot() {
+    for (int i = 0; i < areaCount; i++) {
+        ParkingSlot* slot = areas[i].findAvailableSlot();
+        if (slot != nullptr) {
+            return slot;
+        }
+    }
+    return nullptr;
+}
