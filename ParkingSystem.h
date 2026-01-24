@@ -35,3 +35,12 @@ private:
     int createRequest(int vehicleID, int requestedZone, int requestTime, char* errorMsg = nullptr);
     bool allocateParking(int requestIndex, char* errorMsg = nullptr);
     bool occupyParking(int requestIndex, char* errorMsg = nullptr);
+
+     bool releaseParking(int requestIndex, int releaseTime, char* errorMsg = nullptr);
+    bool cancelRequest(int requestIndex, char* errorMsg = nullptr);
+    bool rollbackLastKAllocations(int k, char* errorMsg = nullptr);
+    
+    // Analytics
+    double getAverageParkingDuration() const;
+    double getZoneUtilization(int zoneID) const;
+    void getCancelledVsCompleted(int& cancelled, int& completed) const;
