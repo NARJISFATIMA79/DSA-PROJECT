@@ -62,3 +62,27 @@ void displaySuccess(const char* message) {
     cout << "| " << message << endl;
     cout << "+------------------------------------------+" << endl;
 }
+int main() {
+    cout << "\n============================================" << endl;
+    cout << "  Welcome to Smart Parking Management!     " << endl;
+    cout << "============================================" << endl;
+    
+    int initialZones;
+    cout << "\nEnter number of zones in the city (1-100): ";
+    cin >> initialZones;
+    
+    if (initialZones < 1 || initialZones > 100) {
+        cout << "Invalid! Using default: 10 zones" << endl;
+        initialZones = 10;
+    }
+    
+    ParkingSystem system(initialZones);
+    cout << "\n✓ System initialized with " << initialZones << " zones (Zone IDs: 1-" << initialZones << ")" << endl;
+    
+    int choice;
+    char errorMsg[200];
+    
+    do {
+        displayMenu();
+        cin >> choice;
+        
