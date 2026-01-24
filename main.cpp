@@ -35,6 +35,25 @@ void displayMenu() {
     cout << "Enter choice: ";
 }
 
+string getStateName(RequestState state) {
+    switch(state) {
+        case REQUESTED: return "REQUESTED";
+        case ALLOCATED: return "ALLOCATED";
+        case OCCUPIED: return "OCCUPIED";
+        case RELEASED: return "RELEASED";
+        case CANCELLED: return "CANCELLED";
+        default: return "UNKNOWN";
+    }
+}
+
+void displayError(const char* errorMsg) {
+    cout << "\n+------------------------------------------+" << endl;
+    cout << "| ERROR                                    |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "| " << errorMsg << endl;
+    cout << "+------------------------------------------+" << endl;
+}
+
 
 void displaySuccess(const char* message) {
     cout << "\n+------------------------------------------+" << endl;
