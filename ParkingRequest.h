@@ -23,3 +23,12 @@ private:
 public:
     ParkingRequest();
     ParkingRequest(int vID, int reqZone, int reqTime);
+
+    int getVehicleID() const;
+    int getRequestedZone() const;
+    int getRequestTime() const;
+    RequestState getState() const;
+    int getAllocatedSlotID() const;
+    int getAllocatedZoneID() const;
+    int getReleaseTime() const;
+    bool isCrossZone() const;
