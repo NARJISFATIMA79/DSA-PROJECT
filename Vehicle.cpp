@@ -9,4 +9,7 @@ int Vehicle::getVehicleID() const {
     return vehicleID;
 }
 
+int Vehicle::getPreferredZone() const {
+    return preferredZone;
+}
 
