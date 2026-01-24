@@ -44,3 +44,6 @@ private:
     double getAverageParkingDuration() const;
     double getZoneUtilization(int zoneID) const;
     void getCancelledVsCompleted(int& cancelled, int& completed) const;
+    int getPeakUsageZone() const;
+    double getSystemUtilization() const;
+    double calculateParkingCost(int requestIndex) const; 
