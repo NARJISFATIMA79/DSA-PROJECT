@@ -39,3 +39,18 @@ bool ParkingSystem::setupZone(int zoneID, int numAreas, int slotsPerArea, char* 
         }
         return false;
     }
+
+    // Check if zone already exists
+    for (int i = 0; i < zoneCount; i++) {
+        if (zones[i].getZoneID() == zoneID) {
+            if (errorMsg) strcpy(errorMsg, "Zone already exists!");
+            return false;
+        }
+    }
+    
+    // Validate parameters
+    if (numAreas <= 0 || slotsPerArea <= 0) {
+        if (errorMsg) strcpy(errorMsg, "Areas and slots must be positive!");
+        return false;
+    }
+    
