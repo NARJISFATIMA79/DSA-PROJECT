@@ -66,3 +66,21 @@ ParkingSlot* Zone::findAvailableSlot() {
     }
     return nullptr;
 }
+
+ParkingSlot* Zone::getSlotByID(int slotID) {
+    for (int i = 0; i < areaCount; i++) {
+        ParkingSlot* slot = areas[i].getSlotByID(slotID);
+        if (slot != nullptr) {
+            return slot;
+        }
+    }
+    return nullptr;
+}
+
+int Zone::getTotalSlots() const {
+    int total = 0;
+    for (int i = 0; i < areaCount; i++) {
+        total += areas[i].getSlotCount();
+    }
+    return total;
+}
