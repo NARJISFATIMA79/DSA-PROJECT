@@ -86,3 +86,42 @@ int main() {
         displayMenu();
         cin >> choice;
         
+        switch(choice) {
+            case 1: { // Setup Zone
+                int zoneID, numAreas, slotsPerArea;
+                cout << "\n============================================" << endl;
+                cout << " SETUP ZONE                                 " << endl;
+                cout << "============================================" << endl;
+                cout << "Valid Zone IDs: 1-" << system.getMaxZoneID() << endl;
+                cout << "Active Zones: " << system.getActiveZoneCount() << "/" << system.getMaxZoneID() << endl;
+                cout << "\nEnter Zone ID: ";
+                cin >> zoneID;
+                cout << "Enter number of parking areas: ";
+                cin >> numAreas;
+                cout << "Enter slots per area: ";
+                cin >> slotsPerArea;
+                
+                errorMsg[0] = '\0';
+                if (system.setupZone(zoneID, numAreas, slotsPerArea, errorMsg)) {
+                    cout << "\n+------------------------------------------+" << endl;
+                    cout << "| Zone " << zoneID << " Setup Successfully            |" << endl;
+                    cout << "+------------------------------------------+" << endl;
+                    cout << "| Zone ID:        " << setw(4) << zoneID << "                      |" << endl;
+                    cout << "| Areas:          " << setw(4) << numAreas << "                      |" << endl;
+                    cout << "| Slots/Area:     " << setw(4) << slotsPerArea << "                      |" << endl;
+                    cout << "| Total Slots:    " << setw(4) << (numAreas * slotsPerArea) << "                      |" << endl;
+                    cout << "| Slot IDs:       1 to " << (numAreas * slotsPerArea) << "                   |" << endl;
+                    cout << "+------------------------------------------+" << endl;
+                    
+                    // Verify the zone was created correctly
+                    Zone* verifyZone = system.getZone(zoneID);
+                    if (verifyZone != nullptr) {
+                        cout << "\nVerification: Zone " << verifyZone->getZoneID() 
+                             << " has " << verifyZone->getTotalSlots() << " total slots, "
+                             << verifyZone->getAvailableSlots() << " available" << endl;
+                    }
+                } else {
+                    displayError(errorMsg);
+                }
+                break;
+            }
