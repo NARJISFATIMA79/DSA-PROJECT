@@ -8,4 +8,12 @@ class AllocationEngine {
 private:
     Zone* zones;
     int zoneCount;
+
+    public:
+    AllocationEngine();
+    AllocationEngine(Zone* z, int count);
+    
+    bool allocateSlot(ParkingRequest* request);
 };
+
+#endif
