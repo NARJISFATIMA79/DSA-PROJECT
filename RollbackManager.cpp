@@ -30,3 +30,16 @@ bool RollbackManager::popOperation(int& reqIndex, int& slotID, int& zoneID) {
     size--;
     return true;
 }
+
+int RollbackManager::getSize() const {
+    return size;
+}
+
+void RollbackManager::clear() {
+    while (top != nullptr) {
+        RollbackOperation* temp = top;
+        top = top->next;
+        delete temp;
+    }
+    size = 0;
+}
