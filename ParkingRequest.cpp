@@ -18,3 +18,19 @@ int ParkingRequest::getRequestedZone() const {
 int ParkingRequest::getRequestTime() const {
     return requestTime;
 }
+
+RequestState ParkingRequest::getState() const {
+    return state;
+}
+
+int ParkingRequest::getAllocatedSlotID() const {
+    return allocatedSlotID;
+}
+
+int ParkingRequest::getAllocatedZoneID() const {
+    return allocatedZoneID;
+}
+
+int ParkingRequest::getReleaseTime() const {
+    return releaseTime;
+}
