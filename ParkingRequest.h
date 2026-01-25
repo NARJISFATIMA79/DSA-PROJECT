@@ -32,3 +32,10 @@ public:
     int getAllocatedZoneID() const;
     int getReleaseTime() const;
     bool isCrossZone() const;
+    bool setState(RequestState newState);
+    void setAllocatedSlot(int slotID, int zoneID, bool crossZone);
+    void setReleaseTime(int time);
+    void forceCancel();
+};
+
+#endif
