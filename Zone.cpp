@@ -1,3 +1,4 @@
+// ===== Zone.cpp =====
 #include "Zone.h"
 
 Zone::Zone() : zoneID(0), areas(nullptr), areaCount(0), capacity(0) {}
@@ -54,6 +55,12 @@ void Zone::addArea(int areaID, int slotCapacity) {
     if (areaCount < capacity) {
         areas[areaCount] = ParkingArea(areaID, zoneID, slotCapacity);
         areaCount++;
+    }
+}
+
+void Zone::addSlotToArea(int areaIndex, int slotID) {
+    if (areaIndex >= 0 && areaIndex < areaCount) {
+        areas[areaIndex].addSlot(slotID);
     }
 }
 
