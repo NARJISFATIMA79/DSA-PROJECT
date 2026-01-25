@@ -257,4 +257,72 @@ bool ParkingSystem::cancelRequest(int requestIndex, char* errorMsg) {
     return true;
 }
 
+bool ParkingSystem::rollbackLastKAllocations(int k, char* errorMsg) {
+    if (k <= 0) {
+        if (errorMsg) strcpy(errorMsg, "k must be positive!");
+        return false;
+    }
     
+    if (rollbackMgr->getSize() == 0) {
+        if (errorMsg) strcpy(errorMsg, "No allocations to rollback!");
+        return false;
+    }
+    
+    int rolled = 0;
+    while (rolled < k && rollbackMgr->getSize() > 0) {
+        int reqIndex, slotID, zoneID;
+        if (rollbackMgr->popOperation(reqIndex, slotID, zoneID)) {
+            if (reqIndex >= 0 && reqIndex < requestCount) {
+                RequestState state = requests[reqIndex].getState();
+                
+                if (state == ALLOCATED || state == OCCUPIED) {
+                    for (int i = 0; i < zoneCount; i++) {
+                        if (zones[i].getZoneID() == zoneID) {
+                            ParkingSlot* slot = zones[i].getSlotByID(slotID);
+                            if (slot != nullptr) {
+                                slot->setAvailability(true);
+                            }
+                            break;
+                        }
+                    }
+                    
+                    requests[reqIndex].forceCancel();
+                    rolled++;
+                }
+            }
+        }
+    }
+    return rolled > 0;
+}
+
+double ParkingSystem::getAverageParkingDuration() const {
+    int totalDuration = 0;
+    int completedCount = 0;
+    
+    for (int i = 0; i < requestCount; i++) {
+        if (requests[i].getState() == RELEASED) {
+            int duration = requests[i].getReleaseTime() - requests[i].getRequestTime();
+            totalDuration += duration;
+            completedCount++;
+        }
+    }
+    
+    if (completedCount == 0) {
+        return 0.0;
+    }
+    return (double)totalDuration / completedCount;
+}
+
+double ParkingSystem::getZoneUtilization(int zoneID) const {
+    for (int i = 0; i < zoneCount; i++) {
+        if (zones[i].getZoneID() == zoneID) {
+            int total = zones[i].getTotalSlots();
+            int available = zones[i].getAvailableSlots();
+            if (total == 0) {
+                return 0.0;
+            }
+            return (double)(total - available) / total * 100.0;
+        }
+    }
+    return 0.0;
+}
