@@ -184,3 +184,78 @@ int main() {
                 }
                 break;
             }
+
+            case 4: { // Create Parking Request
+                int vehicleID, requestedZone, requestTime;
+                cout << "\n============================================" << endl;
+                cout << " CREATE PARKING REQUEST                     " << endl;
+                cout << "============================================" << endl;
+                cout << "Valid Zones: 1-" << system.getMaxZoneID() << " (Active: " << system.getActiveZoneCount() << ")" << endl;
+                cout << "\nEnter Vehicle ID: ";
+                cin >> vehicleID;
+                cout << "Enter Requested Zone ID: ";
+                cin >> requestedZone;
+                cout << "Enter Request Time: ";
+                cin >> requestTime;
+                
+                errorMsg[0] = '\0';
+                int requestIndex = system.createRequest(vehicleID, requestedZone, requestTime, errorMsg);
+                if (requestIndex != -1) {
+                    cout << "\n+------------------------------------------+" << endl;
+                    cout << "| Request Created Successfully             |" << endl;
+                    cout << "+------------------------------------------+" << endl;
+                    cout << "| Request Index:  " << setw(4) << requestIndex << "                     |" << endl;
+                    cout << "| Vehicle ID:     " << setw(4) << vehicleID << "                     |" << endl;
+                    cout << "| Requested Zone: " << setw(4) << requestedZone << "                     |" << endl;
+                    cout << "| Status:         REQUESTED                |" << endl;
+                    cout << "+------------------------------------------+" << endl;
+                } else {
+                    displayError(errorMsg);
+                }
+                break;
+            }
+            
+            case 5: { // Allocate Parking
+                int requestIndex;
+                cout << "\n============================================" << endl;
+                cout << " ALLOCATE PARKING                           " << endl;
+                cout << "============================================" << endl;
+                cout << "Available Slots in System: " << system.getAvailableSlotsInSystem() << endl;
+                cout << "\nEnter Request Index: ";
+                cin >> requestIndex;
+                
+                // Show request details before allocation
+                ParkingRequest* preReq = system.getRequest(requestIndex);
+                if (preReq != nullptr) {
+                    cout << "\nRequest Details:" << endl;
+                    cout << "  Vehicle ID: " << preReq->getVehicleID() << endl;
+                    cout << "  Requested Zone: " << preReq->getRequestedZone() << endl;
+                    cout << "  Current State: " << getStateName(preReq->getState()) << endl;
+                }
+                
+                errorMsg[0] = '\0';
+                bool success = system.allocateParking(requestIndex, errorMsg);
+                if (success) {
+                    ParkingRequest* req = system.getRequest(requestIndex);
+                    cout << "\n+------------------------------------------+" << endl;
+                    cout << "| Parking Allocated Successfully           |" << endl;
+                    cout << "+------------------------------------------+" << endl;
+                    cout << "| Request Index:     " << setw(4) << requestIndex << "                  |" << endl;
+                    cout << "| Vehicle ID:        " << setw(4) << req->getVehicleID() << "                  |" << endl;
+                    cout << "| Requested Zone:    " << setw(4) << req->getRequestedZone() << "                  |" << endl;
+                    cout << "| Allocated Zone:    " << setw(4) << req->getAllocatedZoneID() << "                  |" << endl;
+                    cout << "| Allocated Slot:    " << setw(4) << req->getAllocatedSlotID() << "                  |" << endl;
+                    cout << "| Cross-Zone:        " << (req->isCrossZone() ? "YES" : "NO ") << "                  |" << endl;
+                    cout << "| Status:            ALLOCATED             |" << endl;
+                    cout << "+------------------------------------------+" << endl;
+                    
+                    if (req->isCrossZone()) {
+                        cout << "\n*** CROSS-ZONE ALLOCATION ***" << endl;
+                        cout << "Requested zone " << req->getRequestedZone() 
+                             << " was full. Allocated in zone " << req->getAllocatedZoneID() << endl;
+                    }
+                } else {
+                    displayError(errorMsg);
+                }
+                break;
+            }
