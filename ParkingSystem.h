@@ -47,3 +47,14 @@ private:
     int getPeakUsageZone() const;
     double getSystemUtilization() const;
     double calculateParkingCost(int requestIndex) const; 
+        // Information queries
+    ParkingRequest* getRequest(int index);
+    Zone* getZone(int zoneID);
+    int getMaxZoneID() const { return maxZoneID; }
+    int getActiveZoneCount() const { return zoneCount; }
+    void getActiveZones(int* zoneIDs, int& count) const;
+    bool isZoneActive(int zoneID) const;
+    int getAvailableSlotsInSystem() const;
+};
+
+#endif
