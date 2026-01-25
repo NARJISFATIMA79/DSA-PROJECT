@@ -34,3 +34,23 @@ int ParkingRequest::getAllocatedZoneID() const {
 int ParkingRequest::getReleaseTime() const {
     return releaseTime;
 }
+
+bool ParkingRequest::isCrossZone() const {
+    return crossZoneAllocation;
+}
+
+bool ParkingRequest::setState(RequestState newState) {
+    if (state == REQUESTED && (newState == ALLOCATED || newState == CANCELLED)) {
+        state = newState;
+        return true;
+    }
+    if (state == ALLOCATED && (newState == OCCUPIED || newState == CANCELLED)) {
+        state = newState;
+        return true;
+    }
+    if (state == OCCUPIED && newState == RELEASED) {
+        state = newState;
+        return true;
+    }
+    return false;
+}
