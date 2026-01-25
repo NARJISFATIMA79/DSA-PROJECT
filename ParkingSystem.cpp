@@ -326,3 +326,29 @@ double ParkingSystem::getZoneUtilization(int zoneID) const {
     }
     return 0.0;
 }
+
+double ParkingSystem::getSystemUtilization() const {
+    int totalSlots = 0;
+    int totalAvailable = 0;
+    
+    for (int i = 0; i < zoneCount; i++) {
+        totalSlots += zones[i].getTotalSlots();
+        totalAvailable += zones[i].getAvailableSlots();
+    }
+    
+    if (totalSlots == 0) return 0.0;
+    return (double)(totalSlots - totalAvailable) / totalSlots * 100.0;
+}
+
+void ParkingSystem::getCancelledVsCompleted(int& cancelled, int& completed) const {
+    cancelled = 0;
+    completed = 0;
+    
+    for (int i = 0; i < requestCount; i++) {
+        if (requests[i].getState() == CANCELLED) {
+            cancelled++;
+        } else if (requests[i].getState() == RELEASED) {
+            completed++;
+        }
+    }
+}
