@@ -12,4 +12,3 @@ int Vehicle::getVehicleID() const {
 int Vehicle::getPreferredZone() const {
     return preferredZone;
 }
-
