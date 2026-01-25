@@ -259,3 +259,51 @@ int main() {
                 }
                 break;
             }
+
+                        case 6: { // Occupy Parking
+                int requestIndex;
+                cout << "\n============================================" << endl;
+                cout << " OCCUPY PARKING                             " << endl;
+                cout << "============================================" << endl;
+                cout << "Enter Request Index: ";
+                cin >> requestIndex;
+                
+                errorMsg[0] = '\0';
+                if (system.occupyParking(requestIndex, errorMsg)) {
+                    displaySuccess("Parking occupied successfully!");
+                } else {
+                    displayError(errorMsg);
+                }
+                break;
+            }
+            
+            case 7: { // Release Parking
+                int requestIndex, releaseTime;
+                cout << "\n============================================" << endl;
+                cout << " RELEASE PARKING                            " << endl;
+                cout << "============================================" << endl;
+                cout << "Enter Request Index: ";
+                cin >> requestIndex;
+                
+                ParkingRequest* req = system.getRequest(requestIndex);
+                if (req != nullptr) {
+                    cout << "Request Time: " << req->getRequestTime() << endl;
+                    cout << "Enter Release Time (must be > " << req->getRequestTime() << "): ";
+                    cin >> releaseTime;
+                    
+                    errorMsg[0] = '\0';
+                    if (system.releaseParking(requestIndex, releaseTime, errorMsg)) {
+                        int duration = releaseTime - req->getRequestTime();
+                        cout << "\n+------------------------------------------+" << endl;
+                        cout << "| Parking Released Successfully            |" << endl;
+                        cout << "+------------------------------------------+" << endl;
+                        cout << "| Parking Duration: " << setw(4) << duration << " time units     |" << endl;
+                        cout << "+------------------------------------------+" << endl;
+                    } else {
+                        displayError(errorMsg);
+                    }
+                } else {
+                    displayError("Invalid request index!");
+                }
+                break;
+            }
