@@ -84,3 +84,11 @@ int Zone::getTotalSlots() const {
     }
     return total;
 }
+
+int Zone::getAvailableSlots() const {
+    int available = 0;
+    for (int i = 0; i < areaCount; i++) {
+        available += areas[i].getAvailableCount();
+    }
+    return available;
+}
