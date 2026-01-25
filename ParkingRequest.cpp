@@ -54,3 +54,17 @@ bool ParkingRequest::setState(RequestState newState) {
     }
     return false;
 }
+
+void ParkingRequest::setAllocatedSlot(int slotID, int zoneID, bool crossZone) {
+    allocatedSlotID = slotID;
+    allocatedZoneID = zoneID;
+    crossZoneAllocation = crossZone;
+}
+
+void ParkingRequest::setReleaseTime(int time) {
+    releaseTime = time;
+}
+
+void ParkingRequest::forceCancel() {
+    state = CANCELLED;
+}
