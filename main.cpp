@@ -125,3 +125,62 @@ int main() {
                 }
                 break;
             }
+
+            case 2: { // Expand City Zones
+                int additional;
+                cout << "\n============================================" << endl;
+                cout << " EXPAND CITY ZONES                          " << endl;
+                cout << "============================================" << endl;
+                cout << "Current Maximum Zone ID: " << system.getMaxZoneID() << endl;
+                cout << "Enter additional zones to add: ";
+                cin >> additional;
+                
+                errorMsg[0] = '\0';
+                if (system.expandCityZones(additional, errorMsg)) {
+                    cout << "\n+------------------------------------------+" << endl;
+                    cout << "| City Expanded Successfully               |" << endl;
+                    cout << "+------------------------------------------+" << endl;
+                    cout << "| New Maximum Zone ID: " << system.getMaxZoneID() << "                |" << endl;
+                    cout << "| Valid Zone Range: 1-" << system.getMaxZoneID() << "               |" << endl;
+                    cout << "+------------------------------------------+" << endl;
+                } else {
+                    displayError(errorMsg);
+                }
+                break;
+            }
+            
+            case 3: { // View Active Zones
+                cout << "\n============================================" << endl;
+                cout << " ACTIVE ZONES                               " << endl;
+                cout << "============================================" << endl;
+                cout << "City Zone Range: 1-" << system.getMaxZoneID() << endl;
+                cout << "Active Zones: " << system.getActiveZoneCount() << "/" << system.getMaxZoneID() << endl;
+                
+                int activeZones[100];
+                int count;
+                system.getActiveZones(activeZones, count);
+                
+                if (count > 0) {
+                    cout << "\nActive Zone IDs: ";
+                    for (int i = 0; i < count; i++) {
+                        cout << activeZones[i];
+                        if (i < count - 1) cout << ", ";
+                    }
+                    cout << endl;
+                    
+                    cout << "\nInactive Zones: ";
+                    bool hasInactive = false;
+                    for (int i = 1; i <= system.getMaxZoneID(); i++) {
+                        if (!system.isZoneActive(i)) {
+                            if (hasInactive) cout << ", ";
+                            cout << i;
+                            hasInactive = true;
+                        }
+                    }
+                    if (!hasInactive) cout << "None";
+                    cout << endl;
+                } else {
+                    cout << "\n⚠ No zones have been set up yet!" << endl;
+                }
+                break;
+            }
