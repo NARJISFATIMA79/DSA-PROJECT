@@ -1,4 +1,4 @@
-// Zone.h 
+// ===== Zone.h =====
 #ifndef ZONE_H
 #define ZONE_H
 
@@ -12,7 +12,7 @@ private:
     int capacity;
 
 public:
-Zone();
+    Zone();
     Zone(int zID, int cap);
     ~Zone();
     
@@ -24,4 +24,8 @@ Zone();
     void addSlotToArea(int areaIndex, int slotID);
     ParkingSlot* findAvailableSlot();
     ParkingSlot* getSlotByID(int slotID);
+    int getTotalSlots() const;
+    int getAvailableSlots() const;
 };
+
+#endif
