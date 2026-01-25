@@ -68,3 +68,17 @@ ParkingSlot* ParkingArea::getSlotByID(int slotID) {
     }
     return nullptr;
 }
+
+int ParkingArea::getSlotCount() const {
+    return slotCount;
+}
+
+int ParkingArea::getAvailableCount() const {
+    int count = 0;
+    for (int i = 0; i < slotCount; i++) {
+        if (slots[i].getAvailability()) {
+            count++;
+        }
+    }
+    return count;
+}
