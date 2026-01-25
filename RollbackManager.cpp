@@ -1,3 +1,4 @@
+// ===== RollbackManager.cpp =====
 #include "RollbackManager.h"
 
 RollbackManager::RollbackManager() : top(nullptr), size(0) {}
