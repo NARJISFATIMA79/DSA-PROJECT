@@ -352,3 +352,61 @@ void ParkingSystem::getCancelledVsCompleted(int& cancelled, int& completed) cons
         }
     }
 }
+
+int ParkingSystem::getPeakUsageZone() const {
+    int peakZone = -1;
+    int maxOccupied = -1;
+    
+    for (int i = 0; i < zoneCount; i++) {
+        int total = zones[i].getTotalSlots();
+        int available = zones[i].getAvailableSlots();
+        int occupied = total - available;
+        
+        if (occupied > maxOccupied) {
+            maxOccupied = occupied;
+            peakZone = zones[i].getZoneID();
+        }
+    }
+    
+    return peakZone;
+}
+
+void ParkingSystem::getActiveZones(int* zoneIDs, int& count) const {
+    count = 0;
+    for (int i = 0; i < zoneCount; i++) {
+        zoneIDs[count++] = zones[i].getZoneID();
+    }
+}
+
+bool ParkingSystem::isZoneActive(int zoneID) const {
+    for (int i = 0; i < zoneCount; i++) {
+        if (zones[i].getZoneID() == zoneID) {
+            return true;
+        }
+    }
+    return false;
+}
+
+int ParkingSystem::getAvailableSlotsInSystem() const {
+    int total = 0;
+    for (int i = 0; i < zoneCount; i++) {
+        total += zones[i].getAvailableSlots();
+    }
+    return total;
+}
+
+ParkingRequest* ParkingSystem::getRequest(int index) {
+    if (index >= 0 && index < requestCount) {
+        return &requests[index];
+    }
+    return nullptr;
+}
+
+Zone* ParkingSystem::getZone(int zoneID) {
+    for (int i = 0; i < zoneCount; i++) {
+        if (zones[i].getZoneID() == zoneID) {
+            return &zones[i];
+        }
+    }
+    return nullptr;
+}
