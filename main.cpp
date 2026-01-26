@@ -307,3 +307,37 @@ int main() {
                 }
                 break;
             }
+
+            case 8: { // Cancel Request
+                int requestIndex;
+                cout << "\n============================================" << endl;
+                cout << " CANCEL REQUEST                             " << endl;
+                cout << "============================================" << endl;
+                cout << "Enter Request Index: ";
+                cin >> requestIndex;
+                
+                errorMsg[0] = '\0';
+                if (system.cancelRequest(requestIndex, errorMsg)) {
+                    displaySuccess("Request cancelled successfully!");
+                } else {
+                    displayError(errorMsg);
+                }
+                break;
+            }
+            
+            case 9: { // Rollback Last K Allocations
+                int k;
+                cout << "\n============================================" << endl;
+                cout << " ROLLBACK ALLOCATIONS                       " << endl;
+                cout << "============================================" << endl;
+                cout << "Enter number of allocations to rollback: ";
+                cin >> k;
+                
+                errorMsg[0] = '\0';
+                if (system.rollbackLastKAllocations(k, errorMsg)) {
+                    displaySuccess("Rollback completed successfully!");
+                } else {
+                    displayError(errorMsg);
+                }
+                break;
+            }
