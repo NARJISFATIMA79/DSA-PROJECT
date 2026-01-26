@@ -1,3 +1,4 @@
+// ===== ParkingSystem.cpp ===== (FIXED VERSION)
 #include "ParkingSystem.h"
 #include <cstring>
 #include <cstdio>
@@ -39,7 +40,7 @@ bool ParkingSystem::setupZone(int zoneID, int numAreas, int slotsPerArea, char* 
         }
         return false;
     }
-
+    
     // Check if zone already exists
     for (int i = 0; i < zoneCount; i++) {
         if (zones[i].getZoneID() == zoneID) {
@@ -53,7 +54,7 @@ bool ParkingSystem::setupZone(int zoneID, int numAreas, int slotsPerArea, char* 
         if (errorMsg) strcpy(errorMsg, "Areas and slots must be positive!");
         return false;
     }
-
+    
     // Check capacity and resize if needed
     if (zoneCount >= zoneCapacity) {
         resizeZoneArray(zoneCapacity * 2);
@@ -409,4 +410,30 @@ Zone* ParkingSystem::getZone(int zoneID) {
         }
     }
     return nullptr;
+}
+
+double ParkingSystem::calculateParkingCost(int requestIndex) const {
+    if (requestIndex < 0 || requestIndex >= requestCount) {
+        return 0.0;
+    }
+    
+    const ParkingRequest& req = requests[requestIndex];
+    
+    // Only calculate cost for released parking
+    if (req.getState() != RELEASED) {
+        return 0.0;
+    }
+    
+    // Base cost: duration * rate per time unit
+    double baseCostRate = 10.0;  // 10 units per time period
+    int duration = req.getReleaseTime() - req.getRequestTime();
+    double baseCost = duration * baseCostRate;
+    
+    // Cross-zone penalty: 50% extra
+    double crossZonePenalty = 0.0;
+    if (req.getAllocatedZoneID() != req.getRequestedZone()) {
+        crossZonePenalty = baseCost * 0.5;
+    }
+    
+    return baseCost + crossZonePenalty;
 }
