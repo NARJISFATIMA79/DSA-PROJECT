@@ -341,3 +341,77 @@ int main() {
                 }
                 break;
             }
+
+            case 10: { // System Dashboard
+                cout << "\n============================================" << endl;
+                cout << " SYSTEM DASHBOARD                           " << endl;
+                cout << "============================================" << endl;
+                
+                cout << "\n+--- City Configuration -------------------+" << endl;
+                cout << "| Total City Zones:    " << setw(4) << system.getMaxZoneID() << "                 |" << endl;
+                cout << "| Active Zones:        " << setw(4) << system.getActiveZoneCount() << "                 |" << endl;
+                cout << "| Inactive Zones:      " << setw(4) << (system.getMaxZoneID() - system.getActiveZoneCount()) << "                 |" << endl;
+                cout << "+------------------------------------------+" << endl;
+                
+                cout << "\n+--- System Statistics --------------------+" << endl;
+                cout << "| Available Slots:     " << setw(4) << system.getAvailableSlotsInSystem() << "                 |" << endl;
+                cout << "| System Utilization:  " << fixed << setprecision(1) << setw(5) << system.getSystemUtilization() << "%               |" << endl;
+                
+                int peakZone = system.getPeakUsageZone();
+                if (peakZone != -1) {
+                    cout << "| Peak Usage Zone:     " << setw(4) << peakZone << "                 |" << endl;
+                }
+                
+                double avgDuration = system.getAverageParkingDuration();
+                if (avgDuration > 0) {
+                    cout << "| Avg Park Duration:   " << fixed << setprecision(1) << setw(6) << avgDuration << " units        |" << endl;
+                }
+                cout << "+------------------------------------------+" << endl;
+                
+                int cancelled, completed;
+                system.getCancelledVsCompleted(cancelled, completed);
+                if (cancelled + completed > 0) {
+                    cout << "\n+--- Request Statistics --------------+" << endl;
+                    cout << "│ Completed:           " << setw(4) << completed << "                   │" << endl;
+                    cout << "│ Cancelled:           " << setw(4) << cancelled << "                   │" << endl;
+                    cout << "│ Completion Rate:     " << fixed << setprecision(1) << setw(5) 
+                         << ((double)completed / (cancelled + completed) * 100) << "%                 │" << endl;
+                    cout << "+----------------------------------------+" << endl;
+                }
+                break;
+            }
+            
+            case 11: { // View Zone Details
+                cout << "\n============================================" << endl;
+                cout << " ZONE DETAILS                               " << endl;
+                cout << "============================================" << endl;
+                
+                if (system.getActiveZoneCount() == 0) {
+                    cout << "\nNo zones have been set up yet!" << endl;
+                    break;
+                }
+                
+                cout << "\n+------+---------+-----------+----------+----------+" << endl;
+                cout << "| Zone |  Total  | Available | Occupied |   Util.  |" << endl;
+                cout << "+------+---------+-----------+----------+----------+" << endl;
+                
+                for (int zid = 1; zid <= system.getMaxZoneID(); zid++) {
+                    Zone* zone = system.getZone(zid);
+                    if (zone != nullptr && zone->getTotalSlots() > 0) {
+                        int total = zone->getTotalSlots();
+                        int available = zone->getAvailableSlots();
+                        int occupied = total - available;
+                        double util = system.getZoneUtilization(zid);
+                        
+                        cout << "| " << setw(4) << zid << " | " 
+                             << setw(7) << total << " | " 
+                             << setw(9) << available << " | " 
+                             << setw(8) << occupied << " | " 
+                             << setw(6) << fixed << setprecision(1) << util << "% |" << endl;
+                    }
+                }
+                cout << "+------+---------+-----------+----------+----------+" << endl;
+                break;
+            }
+            
+            
