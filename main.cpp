@@ -79,7 +79,7 @@ int main() {
     }
     
     ParkingSystem system(initialZones);
-    cout << "\n✓ System initialized with " << initialZones << " zones (Zone IDs: 1-" << initialZones << ")" << endl;
+    cout << "\n System initialized with " << initialZones << " zones (Zone IDs: 1-" << initialZones << ")" << endl;
     
     int choice;
     char errorMsg[200];
