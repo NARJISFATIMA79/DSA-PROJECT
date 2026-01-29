@@ -1,7 +1,8 @@
-// ===== main.cpp ===== (ENHANCED INTERACTIVE VERSION)
+// ===== main.cpp ===== 
 #include <iostream>
 #include <iomanip>
 #include "ParkingSystem.h"
+#include "ParkingRequest.h"
 
 using namespace std;
 
@@ -31,6 +32,7 @@ void displayMenu() {
     cout << "| 11. View Zone Details                    |" << endl;
     cout << "| 12. View All Requests Status             |" << endl;
     cout << "| 13. Analytics Summary                    |" << endl;
+    cout << "| 14. Calculate Parking Cost               |" << endl;
     cout << "+------------------------------------------+" << endl;
     cout << "| 0.  Exit System                          |" << endl;
     cout << "+------------------------------------------+" << endl;
@@ -503,6 +505,62 @@ int main() {
                     cout << "| Success Rate:       " << fixed << setprecision(1) << setw(5) 
                          << ((double)completed / (cancelled + completed) * 100) << "%          |" << endl;
                     cout << "+------------------------------------------+" << endl;
+                }
+                break;
+            }
+
+            case 14: { // Calculate Parking Cost
+                int requestIndex;
+                cout << "\n============================================" << endl;
+                cout << " CALCULATE PARKING COST                     " << endl;
+                cout << "============================================" << endl;
+                cout << "Enter Request Index: ";
+                cin >> requestIndex;
+                
+                ParkingRequest* req = system.getRequest(requestIndex);
+                if (req == nullptr) {
+                    displayError("Invalid request index!");
+                    break;
+                }
+                
+                if (req->getState() != RELEASED) {
+                    displayError("Can only calculate cost for RELEASED parking!");
+                    cout << "\nCurrent state: " << getStateName(req->getState()) << endl;
+                    cout << "Please release the parking first (option 7)" << endl;
+                    break;
+                }
+                
+                double cost = system.calculateParkingCost(requestIndex);
+                int duration = req->getReleaseTime() - req->getRequestTime();
+                double baseCost = duration * 10.0;
+                double penalty = cost - baseCost;
+                
+                cout << "\n+------------------------------------------+" << endl;
+                cout << "| PARKING COST BREAKDOWN                   |" << endl;
+                cout << "+------------------------------------------+" << endl;
+                cout << "| Request Index:     " << setw(4) << requestIndex << "                     |" << endl;
+                cout << "| Vehicle ID:        " << setw(4) << req->getVehicleID() << "                     |" << endl;
+                cout << "| Parking Duration:  " << setw(4) << duration << " time units         |" << endl;
+                cout << "+------------------------------------------+" << endl;
+                cout << "| Base Rate:         10 units/time         |" << endl;
+                cout << "| Base Cost:         " << fixed << setprecision(2) << setw(7) << baseCost << " units            |" << endl;
+                
+                if (req->isCrossZone()) {
+                    cout << "+------------------------------------------+" << endl;
+                    cout << "|  !! CROSS-ZONE ALLOCATION DETECTED !!     |" << endl;
+                    cout << "+------------------------------------------+" << endl;
+                    cout << "| Requested Zone:    " << setw(4) << req->getRequestedZone() << "                     |" << endl;
+                    cout << "| Allocated Zone:    " << setw(4) << req->getAllocatedZoneID() << "                     |" << endl;
+                    cout << "| Penalty Rate:      50% of base cost      |" << endl;
+                    cout << "| Penalty Amount:    " << fixed << setprecision(2) << setw(7) << penalty << " units            |" << endl;
+                }
+                
+                cout << "+------------------------------------------+" << endl;
+                cout << "| TOTAL COST:        " << fixed << setprecision(2) << setw(7) << cost << " units            |" << endl;
+                cout << "+------------------------------------------+" << endl;
+                
+                if (req->isCrossZone()) {
+                    cout << "\n TIP: Request your preferred zone to avoid 50% penalty!" << endl;
                 }
                 break;
             }
