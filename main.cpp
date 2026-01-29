@@ -8,7 +8,7 @@ using namespace std;
 
 void displayMenu() {
     cout << "\n============================================" << endl;
-    cout << "   SMART PARKING MANAGEMENT SYSTEM v2.0    " << endl;
+    cout << "   SMART PARKING MANAGEMENT SYSTEM    " << endl;
     cout << "============================================" << endl;
     cout << "+------------------------------------------+" << endl;
     cout << "| SETUP & CONFIGURATION                    |" << endl;
