@@ -1,4 +1,6 @@
+// ===== main.cpp ===== (ENHANCED INTERACTIVE VERSION)
 #include <iostream>
+#include <iomanip>
 #include "ParkingSystem.h"
 
 using namespace std;
@@ -54,7 +56,6 @@ void displayError(const char* errorMsg) {
     cout << "+------------------------------------------+" << endl;
 }
 
-
 void displaySuccess(const char* message) {
     cout << "\n+------------------------------------------+" << endl;
     cout << "| SUCCESS                                  |" << endl;
@@ -62,6 +63,7 @@ void displaySuccess(const char* message) {
     cout << "| " << message << endl;
     cout << "+------------------------------------------+" << endl;
 }
+
 int main() {
     cout << "\n============================================" << endl;
     cout << "  Welcome to Smart Parking Management!     " << endl;
@@ -125,7 +127,7 @@ int main() {
                 }
                 break;
             }
-
+            
             case 2: { // Expand City Zones
                 int additional;
                 cout << "\n============================================" << endl;
@@ -184,7 +186,7 @@ int main() {
                 }
                 break;
             }
-
+            
             case 4: { // Create Parking Request
                 int vehicleID, requestedZone, requestTime;
                 cout << "\n============================================" << endl;
@@ -259,8 +261,8 @@ int main() {
                 }
                 break;
             }
-
-                        case 6: { // Occupy Parking
+            
+            case 6: { // Occupy Parking
                 int requestIndex;
                 cout << "\n============================================" << endl;
                 cout << " OCCUPY PARKING                             " << endl;
@@ -307,7 +309,7 @@ int main() {
                 }
                 break;
             }
-
+            
             case 8: { // Cancel Request
                 int requestIndex;
                 cout << "\n============================================" << endl;
@@ -341,7 +343,7 @@ int main() {
                 }
                 break;
             }
-
+            
             case 10: { // System Dashboard
                 cout << "\n============================================" << endl;
                 cout << " SYSTEM DASHBOARD                           " << endl;
@@ -414,4 +416,115 @@ int main() {
                 break;
             }
             
+            case 12: { // View All Requests
+                cout << "\n============================================" << endl;
+                cout << " ALL REQUESTS STATUS                        " << endl;
+                cout << "============================================" << endl;
+                
+                cout << "\n+-------+---------+--------+---------+------------+------+----------+" << endl;
+                cout << "| Index | Vehicle | ReqZn  | AllocZn |   State    | Slot | CrossZn  |" << endl;
+                cout << "+-------+---------+--------+---------+------------+------+----------+" << endl;
+                
+                bool hasRequests = false;
+                for (int i = 0; i < 1000; i++) {
+                    ParkingRequest* req = system.getRequest(i);
+                    if (req != nullptr && req->getRequestTime() > 0) {
+                        hasRequests = true;
+                        cout << "| " << setw(5) << i << " | " 
+                             << setw(7) << req->getVehicleID() << " | " 
+                             << setw(6) << req->getRequestedZone() << " | ";
+                        
+                        // Allocated Zone
+                        if (req->getAllocatedZoneID() != -1) {
+                            cout << setw(7) << req->getAllocatedZoneID();
+                        } else {
+                            cout << setw(7) << "N/A";
+                        }
+                        cout << " | ";
+                        
+                        // State
+                        string state = getStateName(req->getState());
+                        cout << setw(10) << state << " | ";
+                        
+                        // Slot
+                        if (req->getAllocatedSlotID() != -1) {
+                            cout << setw(4) << req->getAllocatedSlotID();
+                        } else {
+                            cout << setw(4) << "N/A";
+                        }
+                        cout << " | ";
+                        
+                        // Cross Zone
+                        if (req->getState() == ALLOCATED || req->getState() == OCCUPIED || req->getState() == RELEASED) {
+                            cout << setw(8) << (req->isCrossZone() ? "YES" : "NO");
+                        } else {
+                            cout << setw(8) << "N/A";
+                        }
+                        cout << " |" << endl;
+                    }
+                }
+                
+                cout << "+-------+---------+--------+---------+------------+------+----------+" << endl;
+                
+                if (!hasRequests) {
+                    cout << "\nNo requests created yet!" << endl;
+                }
+                break;
+            }
             
+            case 13: { // Analytics Summary
+                cout << "\n============================================" << endl;
+                cout << " ANALYTICS SUMMARY                          " << endl;
+                cout << "============================================" << endl;
+                
+                double avgDuration = system.getAverageParkingDuration();
+                int cancelled, completed;
+                system.getCancelledVsCompleted(cancelled, completed);
+                
+                cout << "\n+--- Performance Metrics ------------------+" << endl;
+                if (avgDuration > 0) {
+                    cout << "| Average Parking Duration: " << fixed << setprecision(2) 
+                         << setw(6) << avgDuration << " units|" << endl;
+                }
+                cout << "| System Utilization:       " << fixed << setprecision(1) 
+                     << setw(5) << system.getSystemUtilization() << "%    |" << endl;
+                
+                int peakZone = system.getPeakUsageZone();
+                if (peakZone != -1) {
+                    cout << "| Peak Usage Zone:          " << setw(4) << peakZone << "      |" << endl;
+                }
+                cout << "+------------------------------------------+" << endl;
+                
+                if (cancelled + completed > 0) {
+                    cout << "\n+--- Request Analysis ---------------------+" << endl;
+                    cout << "| Total Processed:    " << setw(6) << (cancelled + completed) << "           |" << endl;
+                    cout << "| Completed:          " << setw(6) << completed << "           |" << endl;
+                    cout << "| Cancelled:          " << setw(6) << cancelled << "           |" << endl;
+                    cout << "| Success Rate:       " << fixed << setprecision(1) << setw(5) 
+                         << ((double)completed / (cancelled + completed) * 100) << "%          |" << endl;
+                    cout << "+------------------------------------------+" << endl;
+                }
+                break;
+            }
+            
+            case 0: { // Exit
+                cout << "\n============================================" << endl;
+                cout << "  Thank you for using Smart Parking!        " << endl;
+                cout << "============================================\n" << endl;
+                break;
+            }
+            
+            default:
+                displayError("Invalid choice! Please select 0-13.");
+        }
+        
+        if (choice != 0) {
+            cout << "\nPress Enter to continue...";
+            cin.ignore();
+            cin.get();
+        }
+        
+    } while(choice != 0);
+    
+    return 0;
+}
