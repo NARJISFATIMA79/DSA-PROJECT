@@ -1,4 +1,3 @@
-// ===== AllocationEngine.h =====
 #ifndef ALLOCATIONENGINE_H
 #define ALLOCATIONENGINE_H
 

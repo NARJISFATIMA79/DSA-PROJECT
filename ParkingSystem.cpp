@@ -1,4 +1,4 @@
-// ===== ParkingSystem.cpp ===== (FIXED VERSION)
+// ===== ParkingSystem.cpp ===== 
 #include "ParkingSystem.h"
 #include <cstring>
 #include <cstdio>
