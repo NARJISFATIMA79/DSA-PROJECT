@@ -1,7 +1,7 @@
 // ===== test_parking_system.cpp =====
 
-//.\test_parking.exe
-//g++ -o test_parking.exe test_parking_system.cpp ParkingSlot.cpp ParkingArea.cpp Zone.cpp Vehicle.cpp ParkingRequest.cpp AllocationEngine.cpp RollbackManager.cpp ParkingSystem.cpp
+//.\test_parking.exe 
+//g++ -o test_parking.exe test_parking_system.cpp ParkingSlot.cpp ParkingArea.cpp Zone.cpp Vehicle.cpp ParkingRequest.cpp AllocationEngine.cpp RollbackManager.cpp ParkingSystem.cpp (Run this command)
 
 #include <iostream>
 #include <iomanip>
