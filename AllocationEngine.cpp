@@ -1,3 +1,4 @@
+//g++ -o parking main.cpp ParkingSlot.cpp ParkingArea.cpp Zone.cpp Vehicle.cpp ParkingRequest.cpp AllocationEngine.cpp RollbackManager.cpp ParkingSystem.cpp
 #include "AllocationEngine.h"
 
 AllocationEngine::AllocationEngine() : zones(nullptr), zoneCount(0) {}
@@ -44,3 +45,4 @@ bool AllocationEngine::allocateSlot(ParkingRequest* request) {
     
     return false;
 }
+
