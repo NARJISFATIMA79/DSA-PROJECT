@@ -34,3 +34,54 @@
 
 > This phase was about safety: if something fails, the system knows how to recover.
 
+## 🛠️ Development Progress
+
+### Day 5 – Menu System & Control Flow (Main Logic)
+- Designed and implemented a **case-driven menu system** in `main()` to control overall program flow  
+- Organized the menu into logical sections:
+  - **Setup & Configuration**
+  - **Parking Operations**
+  - **Analytics & Reports**
+- Implemented core menu cases:
+  - Setup Zone  
+  - Expand City Zones  
+  - View Active Zones  
+  - Create Parking Request  
+  - Allocate Parking  
+  - Occupy Parking  
+  - Release Parking  
+  - Cancel Request  
+  - Rollback Last K Allocations  
+- Enforced **operation order dependencies** (e.g., zones must exist before parking requests)  
+- Added menu-level input validation to block invalid or duplicate actions  
+- Connected menu options cleanly to backend modules without embedding business logic in `main()`
+
+
+---
+
+### Day 6 – State Management, Request Tracking & System Intelligence
+- Implemented **parking request tracking** across its full lifecycle:
+  - Created → Allocated → Occupied → Released / Cancelled  
+- Added **unique request indexing** to reference, update, cancel, and rollback operations reliably  
+- Implemented **getters and setters** for controlled access to:
+  - Zone IDs  
+  - Total slots and available slots  
+  - Occupied slots  
+  - Request identifiers and status  
+- Introduced **explicit state transition rules** to prevent illegal operations:
+  - A slot cannot be occupied unless allocated  
+  - A request cannot be released unless occupied  
+- Strengthened **rollback logic** to safely undo the last **K parking allocations** using request history  
+- Ensured all modules stay synchronized when state changes occur (zones, slots, requests)  
+- Improved internal consistency checks to avoid partial updates and invalid system states
+
+
+---
+
+### 🔍 Key Functional Highlights
+- Structured, case-driven menu system  
+- Full request lifecycle management  
+- Safe state transitions and validation logic  
+- Robust cancellation and rollback handling  
+- Clean separation between user interface flow and core business logic  
+- Scalable foundation for analytics and reporting features
